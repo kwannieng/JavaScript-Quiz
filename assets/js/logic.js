@@ -1,4 +1,3 @@
-//1.
 let startPage = document.getElementById("start-screen")
 let questionPage = document.getElementById("questions")
 let endPage = document. getElementById("end-screen")
@@ -6,7 +5,7 @@ let startButton = document.getElementById("start")
 let timerElement = document.getElementById("time");
 let time = questions.length * 15;
 let timerID;
-
+let feedbackElement = document.getElementById("feedback");
 
 //click start button to start
 
@@ -31,37 +30,22 @@ function startTimer() {
   endQuiz();
   }
 }
-//       if (timeID >= 0) {
 
-//         if (endQuiz && timeID > 0) {
-//           // Clears interval and stops timer
-//           clearInterval(timer);
-//           endQuiz();
-//         }
-//       }
-//       // Tests if time has run out
-//       if (timeID === 0) {
-//         // Clears interval
-//         clearInterval(timer);
-//         endQuiz();
-//       }
-//     }, 1000);
-//   }
+//render the first question
 
 let titleElement = document.getElementById("question-title")
 let choicesElement = document.getElementById("choices")
 let currentQuestionIndex = 0;
 
-
-  function getQuestion () {
+function getQuestion () {
   
-    let currentQuestion = questions[currentQuestionIndex];
+  let currentQuestion = questions[currentQuestionIndex];
 
-    titleElement.textContent = currentQuestion.title;
+  titleElement.textContent = currentQuestion.title;
 
-    choicesElement.innerHTML = "";
+  choicesElement.innerHTML = "";
 
-    currentQuestion.choices.forEach(function(choices, index){
+  currentQuestion.choices.forEach(function(choices, index){
       let choicesButton = document.createElement("button");
       choicesButton.setAttribute("class", "choice");
       choicesButton.setAttribute("value", choices);
@@ -74,10 +58,39 @@ let currentQuestionIndex = 0;
     })
   }
 
+  
+let sfxRight = new Audio ("assets/sfx/correct.wav");
+let sfxWrong = new Audio ("assets/sfx/incorrect.wav");
 
-  function selectAnswer (){
-
+function selectAnswer () {
+  if (this.value !== questions[currentQuestionIndex].answer){
+    time -= 15;
+    if (time <0){
+      time = 0
+    }
+    timerElement.textContent = time;
+    feedbackElement.textContent = "Wrong";
+    sfxWrong.play();
+  } else{
+    feedbackElement.textContent = "Correct";
+    sfxRight.play();
   }
+  feedbackElement.setAttribute("class", "feecback");
+
+  setTimeout(function(){
+    feedbackElement.setAttribute("class", "feedback hide")
+    }, 1000)
+
+currentQuestionIndex++;
+
+if (currentQuestionIndex === questions.length){
+  endQuiz()
+}else {
+  getQuestion();
+}
+
+}
+
 
   // The endQuiz function is called when the end condition is met
 let submitButton = document.getElementById("submit")
@@ -91,13 +104,11 @@ let finalScore = document.getElementById("final-score")
     endPage.classList.remove("hide");
     endPage.classList.add("start");
 
-    finalScore.textContent = time;
-
-
-
-    finalScore = localStorage.getItem("score")    
-    submitButton.addEventListener("click", localStorage.setItem("Initial", initial))
-
-    loseCounter++
+    finalScore.textContent = localStorage.getItem("score") ;  
+    submitButton.addEventListener("click", checkForEnter)
   }
+
+function checkForEnter () {
+  localStorage.setItem("Initial", initial)
+}
   
