@@ -97,9 +97,9 @@ if (currentQuestionIndex === questions.length){
 }
 
 // The endQuiz function is called when the end condition is met
-let submitButton = document.getElementById("submit")
-let initial = document.getElementById("initials")
-let finalScore = document.getElementById("final-score")
+let submitButton = document.getElementById("submit");
+let initial = document.getElementById("initials");
+let finalScore = document.getElementById("final-score");
 
 function endQuiz() {
   clearInterval(timerID);
@@ -108,7 +108,12 @@ function endQuiz() {
   endPage.classList.remove("hide");
   endPage.classList.add("start");
 
-  finalScore.textContent = localStorage.getItem(scores) ;  
+  // finalScore.textContent = 
+  
+  let fS = localStorage.getItem("Final Score")
+  console.log(fS)
+  finalScore.textContent =fS
+  
   submitButton.addEventListener("click", checkForEnter)
   }
 
