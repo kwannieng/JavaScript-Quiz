@@ -5,7 +5,7 @@ let endPage = document. getElementById("end-screen")
 let startButton = document.getElementById("start")
 let timerElement = document.getElementById("time");
 let time = questions.length * 15;
-let timeID;
+let timerID;
 
 
 //click start button to start
@@ -15,7 +15,7 @@ startButton.addEventListener("click", startQuiz)
 function startQuiz() {
     startPage.setAttribute("class", "hide");
     questionPage.removeAttribute("class");    
-    time = setInterval(startTimer, 1000);
+    timerID = setInterval(startTimer, 1000);
     startTimer()
     getQuestion()
 } 
@@ -24,12 +24,12 @@ function startQuiz() {
 
 function startTimer() {
 //     Sets timer
-  time--;
+  time --;
   timerElement.textContent = time;
 
-  // if (time<=0){
-  //   endQuiz();
-  // }
+  if (time<=0){
+  endQuiz();
+  }
 }
 //       if (timeID >= 0) {
 
@@ -85,7 +85,7 @@ let initial = document.getElementById("initials")
 let finalScore = document.getElementById("final-score")
 
   function endQuiz() {
-    clearInterval(timeID);
+    clearInterval(timerID);
     questionPage.classList.remove("start");
     questionPage.classList.add("hide");
     endPage.classList.remove("hide");
