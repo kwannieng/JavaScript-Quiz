@@ -1,7 +1,8 @@
 let scoreValue = localStorage.getItem("Final Score")
+let initial = localStorage.getItem("Initial")
 
 let score = document.createElement("p");
-score.innerText = scoreValue;
+score.innerText = `${initial} - ${scoreValue}`;
 document.getElementById("highscores").appendChild(score)
 
 
