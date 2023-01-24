@@ -1,4 +1,4 @@
-let scoreValue = localStorage.getItem("score")
+let scoreValue = localStorage.getItem("Final Score")
 
 let score = document.createElement("p");
 score.innerText = scoreValue;

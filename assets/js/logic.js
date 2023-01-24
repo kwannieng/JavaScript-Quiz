@@ -98,7 +98,7 @@ if (currentQuestionIndex === questions.length){
 
 // The endQuiz function is called when the end condition is met
 let submitButton = document.getElementById("submit");
-let initial = document.getElementById("initials");
+let initial = document.querySelector("input");
 let finalScore = document.getElementById("final-score");
 
 function endQuiz() {
@@ -114,10 +114,10 @@ function endQuiz() {
   console.log(fS)
   finalScore.textContent =fS
   
-  submitButton.addEventListener("click", checkForEnter)
+  submitButton.addEventListener("click", submitInput)
   }
 
-function checkForEnter () {
-  localStorage.setItem("Initial", initial)
-}
-  
+  function submitInput() {
+    let value = initial.value;
+    localStorage.setItem("Initial", value);
+  }
