@@ -6,6 +6,8 @@ let timerElement = document.getElementById("time");
 let time = questions.length * 15;
 let timerID;
 let feedbackElement = document.getElementById("feedback");
+let scores = 0;
+
 
 //click start button to start
 
@@ -46,19 +48,18 @@ function getQuestion () {
   choicesElement.innerHTML = "";
 
   currentQuestion.choices.forEach(function(choices, index){
-      let choicesButton = document.createElement("button");
-      choicesButton.setAttribute("class", "choice");
-      choicesButton.setAttribute("value", choices);
+    let choicesButton = document.createElement("button");
+    choicesButton.setAttribute("class", "choice");
+    choicesButton.setAttribute("value", choices);
       
-      choicesButton.textContent = `${choices}`
+    choicesButton.textContent = `${choices}`
 
-      choicesButton.addEventListener("click", selectAnswer)
+    choicesButton.addEventListener("click", selectAnswer)
 
-      choicesElement.append(choicesButton);
+    choicesElement.append(choicesButton);
     })
   }
 
-  
 let sfxRight = new Audio ("assets/sfx/correct.wav");
 let sfxWrong = new Audio ("assets/sfx/incorrect.wav");
 
@@ -68,13 +69,18 @@ function selectAnswer () {
     if (time <0){
       time = 0
     }
+    
     timerElement.textContent = time;
     feedbackElement.textContent = "Wrong";
     sfxWrong.play();
   } else{
     feedbackElement.textContent = "Correct";
     sfxRight.play();
+    scores += 20;
   }
+
+  localStorage.setItem("Final Score", scores)
+
   feedbackElement.setAttribute("class", "feecback");
 
   setTimeout(function(){
@@ -88,24 +94,22 @@ if (currentQuestionIndex === questions.length){
 }else {
   getQuestion();
 }
-
 }
 
-
-  // The endQuiz function is called when the end condition is met
+// The endQuiz function is called when the end condition is met
 let submitButton = document.getElementById("submit")
 let initial = document.getElementById("initials")
 let finalScore = document.getElementById("final-score")
 
-  function endQuiz() {
-    clearInterval(timerID);
-    questionPage.classList.remove("start");
-    questionPage.classList.add("hide");
-    endPage.classList.remove("hide");
-    endPage.classList.add("start");
+function endQuiz() {
+  clearInterval(timerID);
+  questionPage.classList.remove("start");
+  questionPage.classList.add("hide");
+  endPage.classList.remove("hide");
+  endPage.classList.add("start");
 
-    finalScore.textContent = localStorage.getItem("score") ;  
-    submitButton.addEventListener("click", checkForEnter)
+  finalScore.textContent = localStorage.getItem(scores) ;  
+  submitButton.addEventListener("click", checkForEnter)
   }
 
 function checkForEnter () {
